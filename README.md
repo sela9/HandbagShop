@@ -1,2 +1,4 @@
 # HandbagShop
-Final tack from EPIC skills school
+Final task from EPIC skills school
+
+handbags.sql - дамп базы данных
