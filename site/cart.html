@@ -1,0 +1,59 @@
+<h1>Список покупок</h1>
+
+<?php
+$summ=0;
+//var_dump($_SESSION["order"]);
+//var_dump($_SESSION["order"]["name"]);
+if ((isset($stmt))&&(isset($_SESSION['cart']))) {
+      
+?>
+
+      <table class="table table-striped text-center" summary="Список покупок из сессии">
+        <thead>
+          <tr>
+            <th>Картинка</th>
+            <th>Название</th>
+            <th>Цвет</th>
+            <th>Количество</th>
+            <th>Цена за шт.</th>
+            <th>Поменьше</th>
+            <th>Еще одну</th>
+          </tr>
+        </thead>
+        <tbody>
+
+<?php foreach ($stmt as $key => $value) { ?>
+
+          <tr>
+            <td><span><img src="../images/<?php echo $value['link']; ?>" alt='' height='60px' width='50px'</span></td>
+      	    <td><?php echo $value['name']; ?></td>
+      	    <td><?php echo $value['color']; ?></td>
+      	    <td><?php echo $_SESSION["cart"][$value['id']]; ?></td>
+              <?php 
+              if ($value['price_sale']) { ?>
+              <td><?php echo $value['price_sale']; ?><small><span class="glyphicon glyphicon-ruble" aria-hidden="true"></span></small></td>
+              <?php  $summ+=($value['price_sale']*$_SESSION["cart"][$value['id']]); 
+              } else { ?> 
+              <td><?php echo $value['price']; ?><small><span class="glyphicon glyphicon-ruble" aria-hidden="true"></span></small></td>
+              <?php  $summ+=($value['price']*$_SESSION["cart"][$value['id']]); }?>
+          	<td><a href='cart.php?action=delete&id=<?php echo $value['id']; ?>'><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a></td>
+          	<td><a href='cart.php?action=add&id=<?php echo $value['id']; ?>'><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></td>
+          </tr>
+<?php } ?>
+        </tbody>
+      </table>
+    <h1>Сумма покупки равна <?php echo $summ; ?> <small><span class="glyphicon glyphicon-ruble" style="color: #B52A6E" aria-hidden="true"></span></small> </h1>
+    <form action="cart.php" method="post" style="max-width: 50%">
+          Ваше имя: <br>
+          <input class="form-control" type="text" name="name" required>
+          <br>
+          Ваши контакты: <br>
+          <input class="form-control" type="text" name="cont" required>
+          <input type="hidden" name="summ" value="<?php echo $summ; ?>">
+          <br><br>
+          <input class="btn btn-default" type="submit" value="Купить">
+    </form>
+
+<?php
+} else echo 'Ваша корзина пуста. <a href="shop.php">Перейти к покупкам</a>';
+?>

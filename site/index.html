@@ -1,0 +1,21 @@
+<div class="jumbotron text-center">
+    <h1>Гламурненько.рф</h1>
+    <p class="lead">What time is it?</p><p>it's...</p>
+    <p><a class="btn btn-lg btn-warning" href="shop.php" role="button">Shopping Time!</a></p>
+</div>
+<div class="row">
+    <?php
+        $equal=array();
+        foreach ($stmt as $key => $value) {
+            echo "<div class='col-lg-3 col-md-4 col-xs-6'>";
+            echo "<div class='thumbnail'>";
+            echo "<img class='img-responsive' src='../images/".$value["link"]."' alt='' width='200px' height='auto'>";
+            echo "<div class='caption text-center'>";
+            echo "<span class='price'><small><del>".$value['price']."</del></small>".$value['price_sale']."</span>";
+            echo '<small><span class="glyphicon glyphicon-ruble" aria-hidden="true"></span></small>';
+            echo "</div>";
+            echo "</div>";
+            echo "</div>";
+        }
+    ?>
+</div>

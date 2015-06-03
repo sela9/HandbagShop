@@ -1,0 +1,35 @@
+<div class="col-xs-12 col-sm-9">
+    <div class="row">
+        
+<?php
+//Вывод результатов поиска по фильтру
+
+$equal=array(); //чтобы не выводить повторы
+$border = 1;    //чтобы выводить по 4 
+foreach ($stmt as $key => $value) {
+
+     if (in_array($value['id'], $equal)) { continue;
+     } else $equal[]=$value["id"];
+     echo '<div class="col-xs-6 col-lg-4">';
+     echo "<div class='thumbnail'>";
+     echo "<span><a href=handbag.php?bag=".$value['id']."><img class='img-responsive' src='../images/".$value["link"]."' alt='' width='200px' height='auto'></a></span>";echo "<div class='caption text-center'>";
+     echo "<h4>".$value["name"]."</h4>";
+     if ($value["price_sale"]) {
+          echo "<span class='price'>".$value["price_sale"]."</span>";
+          echo "<span class='price'><del><small>".$value["price"]."</small></del></span>";
+     } else echo "<span class='price'>".$value["price"]."</span>";
+     echo ' <span class="glyphicon glyphicon-ruble" aria-hidden="true"></span></small>';
+     echo "<form action='' method='post'><input class='btn btn-default' name='cart' type='submit' value='В корзиночку'>";
+     echo "<input type='hidden' name='id_item' value=".$value["id_item"]."></form>";
+     echo "</div></div></div>";
+     $border++;
+}
+
+     
+?>
+
+
+       
+    </div>
+</div>
+

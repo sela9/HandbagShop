@@ -1,0 +1,39 @@
+<?php
+if (isset($_POST["login"])){
+		try {
+			$login="SELECT password 
+			        FROM   adm 
+			        WHERE login=:login";
+			$sttm = $pdo->prepare($login);
+			$sttm->bindParam(':login', $_POST["login"]);
+			$sttm->execute();
+			$hash = $sttm->fetchAll(PDO::FETCH_ASSOC);
+			if (!$hash) {
+				echo "<div class='alert alert-danger'>Ошибка авторизации, пользователь не найден</div>";
+			} else if (password_verify($_POST["pwwd"], $hash['0']["password"]))     {
+				$_SESSION['root']='Повелитель';
+				header ('Location: createtheworld.php');
+			} else {
+			    echo "<div class='alert alert-danger'>Invalid password.</div>";
+			  }
+		}
+		catch (PDOException $e) {
+			echo "<div class='alert alert-danger'>Error: " . $e->getMessage();
+			echo '<br>Invalid data.</div>';
+
+		}
+
+}
+
+?>
+   <div class="container">
+		<form class="form-signin" style="max-width: 330px;" action="createtheworld.php" method="post">
+			  <h2 class="form-signin-heading">Мы ждали вас, господин!</h2>
+		      <input type="text" name="login" id="inputEmail" class="form-control" placeholder="Логин для господина" required autofocus>
+		      <input type="password" name="pwwd" id="inputPassword" class="form-control" placeholder="Пароль для господина" required>
+		      <button class="btn btn-lg btn-primary btn-block" type="submit">Авторизоваться</button>
+		</form>
+   </div>
+<?php 
+
+?>
